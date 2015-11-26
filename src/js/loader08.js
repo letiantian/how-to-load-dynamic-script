@@ -12,7 +12,7 @@ function getJS(url) {
                 }
             };
         } else {  //Others
-            script.onload = function(){
+            script.onload = function() {
                 resolve('success: '+url);
             };
         }
@@ -55,8 +55,11 @@ var jquery = 'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js',
 spawn(function*() {
     try {
         yield getJS(jquery);
+        console.log('jquery has loaded');
         yield getJS(your);
+        console.log('your.js has loaded');
         yield getJS(my);
+        console.log('my.js has loaded');
     } catch (err) { 
         console.log(err);
     }
