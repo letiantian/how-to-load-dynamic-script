@@ -7,7 +7,7 @@
 * `img/`：图片
 * `LABjs-source/`：[LABjs](https://github.com/getify/LABjs)的源码，带注释，文中部分代码参考了该项目。
 * `lazyload-source`：[lazyload](https://github.com/rgrove/lazyload)的源码，带注释，文中部分代码参考了该项目。
-* `src/`：本文档中用到的代码，在Firefox 42中测试，使用Firebug观察和调试。
+* `src/`：本文档中涉及的代码，在Firefox 42中测试，使用Firebug观察和调试。
 * `README.md`：本文档。
 
 本文中给出了多种解决方式，`方式1`对应的代码是`src/js/loader01.js`和`src/index01.js`，其他方式对应的代码位置类似。
@@ -16,7 +16,11 @@
 ---
 
 
-最近在做一个基于[Bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet)（小书签）的浏览器插件[awesome-toc](https://github.com/someus/awesome-toc)，该插件用于为网页生成目录，需要在网页中注入多个js文件，也就相当于动态加载js文件，遇到坑了，于是深究了一段时间。我在这里整理了动态加载js文件的若干思路，这对于理解异步编程很有用处，而且适用于Nodejs。
+最近在做一个为网页生成目录的工具[awesome-toc](https://github.com/someus/awesome-toc)，该工具提供了以jquery插件的形式使用的代码，也提供了一个基于[Bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet)（小书签）的浏览器插件。
+
+小书签需要向网页中注入多个js文件，也就相当于动态加载js文件。在编写这部分代码时候遇到坑了，于是深究了一段时间。
+
+我在这里整理了动态加载js文件的若干思路，**这对于理解异步编程很有用处，而且也适用于Nodejs**。
 
 ## 硬编码在html源码中的script是如何加载的
 
@@ -99,6 +103,7 @@ $('#only-button').click(function() {
 firbug控制台输出：
 ![](./img/blocking.gif)
 
+下面开始探索如何动态加载js文件。
 
 ## 方式1：一个错误的加载方式
 
@@ -181,7 +186,7 @@ var loadScript = function(url) {
 };
 ```
 
-浏览器打开，发现可以正常执行！可惜该方法只在某些浏览器的某些版本中有效，没有通用性，例如有些浏览器不支持`async`。[script browser compatibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#Browser_compatibility)给出了下面的兼容性列表：
+浏览器打开，发现可以正常执行！可惜该方法只在某些浏览器的某些版本中有效，没有通用性。[script browser compatibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#Browser_compatibility)给出了下面的兼容性列表：
 
 ![](./img/async-support.png)
 
@@ -307,7 +312,7 @@ onerror事件也添加了回调，用来处理无法加载的js文件。当遇�
 ![](./img/method02.gif)
 
 ## 方式3
-方式2是串行的去加载，我们稍加改进，让它可以并行加载的尽可能地并行加载。
+方式2是串行的去加载，我们稍加改进，让可以并行加载的js脚本尽可能地并行加载。
 
 ```js
 Loader = (function() {
@@ -391,7 +396,7 @@ Loader.load([ [jquery, your], [my] ]);
 
 `Loader.load([ [jquery, your], [my] ]);`代表着`jquery`和`js/your.js`先尽可能快地加载和执行，等它们执行结束后，加载并执行`./js/my.js`。
 
-这里将每个子数组里的url看成一个group，group之内尽可能并行加载并执行，group之间则为串行。
+这里将每个子数组里的所有url看成一个group，group内部的脚本尽可能并行加载并执行，group之间则为串行。
 
 这段代码里使用了一个计数器`current_group_finished`记录当前group中完成的url的数量，在这个数量和url的总数一致时，进入下一个group。
 
@@ -400,7 +405,7 @@ Loader.load([ [jquery, your], [my] ]);
 
 
 ## 方式4
-对方式3中代码的重构。加上done的回调函数。
+该方式是对方式3中代码的重构。
 
 ```js
 Loader = (function() {
