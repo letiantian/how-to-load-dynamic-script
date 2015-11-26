@@ -916,7 +916,7 @@ var jquery = 'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js',
     my     = './js/my.js'
 ;
 
-// 串行代码在这里
+// “串行”代码在这里
 spawn(function*() {
     try {
         yield getJS(jquery);
