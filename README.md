@@ -7,7 +7,7 @@
 * `img/`：图片
 * `LABjs-source/`：[LABjs](https://github.com/getify/LABjs)的源码，带注释，文中部分代码参考了该项目。
 * `lazyload-source`：[lazyload](https://github.com/rgrove/lazyload)的源码，带注释，文中部分代码参考了该项目。
-* `src/`：本文档中涉及的代码，在Firefox 42中测试，使用Firebug观察和调试。
+* `src/`：本文档中涉及的代码，**在Firefox 42中测试，使用Firebug观察和调试**。
 * `README.md`：本文档。
 
 本文中给出了多种解决方式，`方式1`对应的代码是`src/js/loader01.js`和`src/index01.js`，其他方式对应的代码位置类似。
@@ -909,11 +909,14 @@ function spawn(generatorFunc) {
   return onFulfilled();
 }
 
+//// loading
+
 var jquery = 'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js',
     your   = './js/your.js',
     my     = './js/my.js'
 ;
 
+// 串行代码在这里
 spawn(function*() {
     try {
         yield getJS(jquery);
