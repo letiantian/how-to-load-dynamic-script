@@ -177,3 +177,5 @@ Loader = (function() {
     return instanceAPI;
 
 })();  // end Loader
+
+// 这尼玛就是一个状态机

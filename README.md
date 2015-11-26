@@ -788,6 +788,9 @@ Loader = (function() {
 ## 方式6 Promise
 
 
+## 方式7 Promise
+
+## 方式8 生成器+Promise
 
 
 ## 现有哪些工具可以实现动态加载
