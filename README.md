@@ -942,6 +942,12 @@ spawn(function*() {
 
 有些工具也提供了新的思路，例如LABjs中可以使用ajax获取同域下的js文件。
 
+## 其他
+
+[async](https://github.com/caolan/async)
+
+[q](https://github.com/kriskowal/q)
+
 
 ## 资料
 [Script Execution Control](https://wiki.whatwg.org/wiki/Script_Execution_Control#Proposal_1_.28Nicholas_Zakas.29)
