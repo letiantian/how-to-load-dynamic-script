@@ -948,6 +948,8 @@ spawn(function*() {
 
 [q](https://github.com/kriskowal/q)
 
+[co](https://github.com/tj/co)
+
 
 ## 资料
 [Script Execution Control](https://wiki.whatwg.org/wiki/Script_Execution_Control#Proposal_1_.28Nicholas_Zakas.29)
