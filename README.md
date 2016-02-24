@@ -12,6 +12,7 @@
 
 本文中给出了多种解决方式，`方式1`对应的代码是`src/js/loader01.js`和`src/index01.js`，其他方式对应的代码位置类似。
 
+> Gif图片使用[LICEcap](http://www.cockos.com/licecap/)生成。
 
 ---
 
